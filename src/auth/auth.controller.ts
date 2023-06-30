@@ -10,6 +10,8 @@ import {
     Request
   } from '@nestjs/common';
 import { Public } from './decorators/public.decorator';
+import { Roles } from './decorators/roles.decorator';
+import { Role } from './enums/role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +24,7 @@ export class AuthController {
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 
+  @Roles(Role.Admin)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
