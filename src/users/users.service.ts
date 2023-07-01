@@ -19,10 +19,12 @@ export class UsersService {
     return `New user ${user.id} - ${user.name} created successfully`;
   }
 
+  // TODO - Remove password information
   findAll() {
     return this.prisma.user.findMany();
   }
 
+  // TODO - Remove password information
   findOne(id: number) {
     return this.prisma.user.findUnique({ where: { id } });
   }
