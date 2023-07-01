@@ -3,12 +3,16 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { VersioningType } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
+import { PasswordSanitizerInterceptor } from './interceptors/password.sanitizer.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Validation
   app.useGlobalPipes(new ValidationPipe());
+
+  // Global Interceptors
+  app.useGlobalInterceptors(new PasswordSanitizerInterceptor());
 
   // API Versioning
   app.setGlobalPrefix('v1');
