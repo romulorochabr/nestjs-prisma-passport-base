@@ -4,8 +4,10 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('products')
+@ApiTags('Products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -16,13 +18,13 @@ export class ProductsController {
   }
   
   @Get()
-  @Roles(Role.Admin, Role.Client, Role.Supplier)
+  @Roles(Role.Admin, Role.User, Role.Supplier)
   findAll() {
     return this.productsService.findAll();
   }
 
   @Get(':id')
-  @Roles(Role.Admin, Role.Client, Role.Supplier)
+  @Roles(Role.Admin, Role.User, Role.Supplier)
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
   }

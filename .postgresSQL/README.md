@@ -43,4 +43,10 @@ $ docker-compose -f docker-compose-stack.yml up
 # Admin Painel
 $ http://localhost:8080/
 
+# Database Painel
+User: postgres
+Password: example
+Database: db
+Schema: public
+DATABASE_URL: in .env file.
 ```

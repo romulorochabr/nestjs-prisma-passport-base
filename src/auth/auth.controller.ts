@@ -12,8 +12,10 @@ import {
 import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { Role } from './enums/role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Authentication')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

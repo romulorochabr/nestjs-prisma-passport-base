@@ -4,12 +4,14 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('posts')
+@ApiTags('Posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Roles(Role.Admin, Role.Client, Role.Supplier)
+  @Roles(Role.Admin, Role.User, Role.Supplier)
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
     return this.postsService.create(createPostDto);
@@ -27,13 +29,13 @@ export class PostsController {
     return this.postsService.findOne(+id);
   }
 
-  @Roles(Role.Admin, Role.Client, Role.Supplier)
+  @Roles(Role.Admin, Role.User, Role.Supplier)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postsService.update(+id, updatePostDto);
   }
 
-  @Roles(Role.Admin, Role.Client, Role.Supplier)
+  @Roles(Role.Admin, Role.User, Role.Supplier)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.postsService.remove(+id);
