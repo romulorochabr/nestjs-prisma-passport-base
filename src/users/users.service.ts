@@ -25,15 +25,14 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  // TODO - Change it to correct method
+  // TODO - Change it to correct method (Find by CNPJ, CPF or Email?)
   findByUsername(userEmail: string) {
-    // const user = this.prisma.user.findUnique({
-    //   where: {
-    //     email : userEmail
-    //   },
-    // })
-    // return user;
-    return `This action returns a #${userEmail} user`;
+    const user = this.prisma.user.findUnique({
+      where: {
+        email : userEmail
+      }
+    });
+    return user;
   }
 
   findByEmail(userEmail: string) {
@@ -50,7 +49,7 @@ export class UsersService {
   }
 
   remove(id: number) {
-    //return this.prisma.user.delete({id})
+    //this.prisma.user.delete({id})
     return `vai deletar geral`;
   }
 }

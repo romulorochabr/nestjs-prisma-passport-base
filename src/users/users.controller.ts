@@ -13,8 +13,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Roles(Role.Admin, Role.User, Role.Supplier)
-  @Post("signUp")
-  signUp(@Body() createUserDto: CreateUserDto) {
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.signUp(createUserDto);
   }
 

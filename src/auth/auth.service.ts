@@ -9,6 +9,8 @@ export class AuthService {
     private jwtService: JwtService
     ) {}
 
+  // TODO - Improve to allow login using CPF, CNPJ or email
+  // TODO - Improve to use a bigger secrect/JWT
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmail(username);
     if (user?.password !== pass) {
