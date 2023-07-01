@@ -8,6 +8,7 @@ import {
     IsEmail,
     IsStrongPassword
   } from 'class-validator';
+import { EmailNotRegistered } from 'src/validation-rules/email.not.registered';
   
 export class CreateUserDto {
 
@@ -27,10 +28,9 @@ export class CreateUserDto {
     @IsEmail()
     @IsNotEmpty()
     @IsString()
-    @MinLength(8)
-    @MaxLength(20)
     @ApiProperty({ required: true })
     // TODO - Create Decorator to verify if email already exists
+    @EmailNotRegistered({ message: 'Email já registrado. Por favor, escolha um outro ou recupere a sua senha.' })
     email:    string;
 
     @IsOptional()
