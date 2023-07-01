@@ -13,20 +13,13 @@ import { ApiTags } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Roles(Role.Admin, Role.User, Role.Supplier)
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
-
   @Roles(Role.Admin, Role.User, Role.Supplier)
-  @Post()
-  signUp(@Body() newUser: User) {
-    return this.usersService.signUp(newUser);
+  @Post("signUp")
+  signUp(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.signUp(createUserDto);
   }
 
-  //@Roles(Role.Admin)
-  @Public()
+  @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.usersService.findAll();

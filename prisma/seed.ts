@@ -15,6 +15,10 @@ async function main() {
       name: 'romulo',
       email: 'romulo@romulo.com.br',
       password: 'romulo',
+      cpf: "182.267.640-17",
+      cnpj: null,
+      celular: "48999495599",
+      tel_fixo: null,
       role: Role.ADMIN
     },
   });
@@ -26,6 +30,10 @@ async function main() {
       name: 'john',
       email: 'john@john.com.br',
       password: 'john',
+      cpf: null,
+      cnpj: "59.796.774/0001-13",
+      celular: "48999495598",
+      tel_fixo: "48999495597",
       role: Role.SUPPLIER
     },
   });
@@ -37,6 +45,10 @@ async function main() {
       name: 'maria',
       email: 'maria@maria.com.br',
       password: 'maria',
+      cpf: "515.220.010-42",
+      cnpj: null,
+      celular: "48999495596",
+      tel_fixo: "48999495595",
       role: Role.USER
     },
   });

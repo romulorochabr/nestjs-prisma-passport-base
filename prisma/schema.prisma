@@ -24,20 +24,16 @@ model Product {
   createdAt DateTime @default(now()) @db.Timestamp(6)
 }
 
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  userId Int     @unique
-  user   User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
 model User {
   id       Int      @id @default(autoincrement())
-  name     String?  @db.VarChar(255)
+  name     String   @db.VarChar(255)
+  password String   @db.VarChar(255)
   email    String   @unique @db.VarChar(255)
-  password String   @unique @db.VarChar(255)
+  cpf      String?  @unique @db.VarChar(20)
+  cnpj     String?  @unique @db.VarChar(20)
+  celular  String?  @db.VarChar(20)
+  tel_fixo String?  @db.VarChar(20)
   posts     Post[]
-  profile  Profile?
   role    Role     @default(USER)
   createdAt DateTime @default(now()) @db.Timestamp(6)
   updatedAt DateTime @default(now()) @db.Timestamp(6)
