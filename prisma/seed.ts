@@ -2,23 +2,27 @@
 
 import { PrismaClient, Role } from '@prisma/client';
 
+import * as bcrypt from 'bcrypt';
+const saltOrRounds = 10;
 // initialize Prisma Client
 const prisma = new PrismaClient();
 
 
 async function main() {
   // create two dummy articles
+
+  const hashPass =  await bcrypt.hash("RomuloRocha@10", saltOrRounds);
+
   const user01 = await prisma.user.upsert({
     where: { email: 'romulo@romulo.com.br' },
     update: {},
     create: {
       name: 'romulo',
       email: 'romulo@romulo.com.br',
-      password: 'romulo',
-      cpf: "182.267.640-17",
-      cnpj: null,
-      celular: "48999495599",
-      tel_fixo: null,
+      password: hashPass,
+      cpfCnpj: "182.267.640-17",
+      mobile: "48999495599",
+      landline: null,
       role: Role.ADMIN
     },
   });
@@ -29,11 +33,10 @@ async function main() {
     create: {
       name: 'john',
       email: 'john@john.com.br',
-      password: 'john',
-      cpf: null,
-      cnpj: "59.796.774/0001-13",
-      celular: "48999495598",
-      tel_fixo: "48999495597",
+      password: hashPass,
+      cpfCnpj: "59.796.774/0001-13",
+      mobile: "48999495599",
+      landline: null,
       role: Role.SUPPLIER
     },
   });
@@ -44,11 +47,10 @@ async function main() {
     create: {
       name: 'maria',
       email: 'maria@maria.com.br',
-      password: 'maria',
-      cpf: "515.220.010-42",
-      cnpj: null,
-      celular: "48999495596",
-      tel_fixo: "48999495595",
+      password: hashPass,
+      cpfCnpj: "515.220.010-42",
+      mobile: "48999495599",
+      landline: null,
       role: Role.USER
     },
   });

@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { sanitizeCpfCnpj } from 'src/utils/cpf.cnpj.sanitize.function';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,9 @@ export class UsersService {
 
     const saltOrRounds = 10;
     createUserDto.password = await bcrypt.hash(createUserDto.password, saltOrRounds);
+    // Clean CpfCNPJ
+    createUserDto.cpfCnpj = sanitizeCpfCnpj(createUserDto?.cpfCnpj);
+
     const user = await this.prisma.user.create({ data: createUserDto });
     return `New user ${user.id} - ${user.name} created successfully`;
   }
@@ -44,6 +48,13 @@ export class UsersService {
       where: {
         email : userEmail
       },
+    })
+    return user;
+  }
+
+  findByCpfCnpj(cpfCnpj: string) {
+    const user = this.prisma.user.findFirst({
+      where: { cpfCnpj },
     })
     return user;
   }

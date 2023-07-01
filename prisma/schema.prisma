@@ -22,6 +22,7 @@ model Product {
   description String? @db.VarChar(255)
   price       Float   @db.Real
   createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @default(now()) @db.Timestamp(6)
 }
 
 model User {
@@ -29,10 +30,10 @@ model User {
   name     String   @db.VarChar(255)
   password String   @db.VarChar(255)
   email    String   @unique @db.VarChar(255)
-  cpf      String?  @unique @db.VarChar(20)
-  cnpj     String?  @unique @db.VarChar(20)
-  celular  String?  @db.VarChar(20)
-  tel_fixo String?  @db.VarChar(20)
+  emailVerified Boolean  @default(false)
+  cpfCnpj  String  @unique @db.VarChar(20)
+  mobile  String?  @db.VarChar(20)
+  landline String?  @db.VarChar(20)
   posts     Post[]
   role    Role     @default(USER)
   createdAt DateTime @default(now()) @db.Timestamp(6)

@@ -8,6 +8,8 @@ import {
     IsEmail,
     IsStrongPassword
   } from 'class-validator';
+import { CpfCnpjNotValid } from 'src/validation-rules/cpfcnpj.is.valid';
+import { CpfCnpjNotRegistered } from 'src/validation-rules/cpfcnpj.not.registered';
 import { EmailNotRegistered } from 'src/validation-rules/email.not.registered';
   
 export class CreateUserDto {
@@ -29,33 +31,23 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true })
-    // TODO - Create Decorator to verify if email already exists
     @EmailNotRegistered({ message: 'Email já registrado. Por favor, escolha um outro ou recupere a sua senha.' })
     email:    string;
 
-    @IsOptional()
-    @IsString()
-    @MaxLength(20)
-    @ApiProperty({ required: false, nullable: true })
-    // TODO - Create Decorator to verify if CPF already exists and It is valid
-    cpf:      string  | null;
-
-    @IsString()
-    @MaxLength(20)
-    @IsOptional()
-    @ApiProperty({ required: false, nullable: true })
-    // TODO - Create Decorator to verify if CPF already exists and It is valid
-    cnpj:     string  | null;
+    @CpfCnpjNotRegistered({message: 'CPF/CNPJ já registrado. Por favor, escolha um outro ou recupere a sua senha.'})
+    @CpfCnpjNotValid({message: 'CPF/CNPJ não é válido.'})
+    @ApiProperty({ required: true })
+    cpfCnpj:      string;
 
     @IsString()
     @MaxLength(20)
     @IsOptional()
     @ApiProperty({ required: false })
-    celular:  string;
+    mobile:  string;
 
     @IsString()
     @MaxLength(20)
     @IsOptional()
     @ApiProperty({ required: false })
-    tel_fixo: string;
+    landline: string;
 }
