@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Logger, ParseIntPipe } from '@nestjs/common';
+import { Request, Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Logger, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,8 +6,8 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
 import { ApiTags, ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { isEmpty } from 'class-validator';
 import { UserEntity } from './entities/user.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
 @ApiTags('Users')
@@ -26,10 +26,12 @@ export class UsersController {
 
   @ApiCreatedResponse({ type: UserEntity })
   @Roles(Role.Admin, Role.Supplier, Role.User)
-  @Get("myProfile")
-  myProfile() {
-    return `returns users data based on JWT`
+  @Get("me")
+  @UseGuards(AuthGuard)
+  getProfile(@Request() req) {
+    return this.usersService.findOne(req.user.id);
   }
+
 
   @ApiCreatedResponse({ type: UserEntity, isArray: true })
   @Roles(Role.Admin)
@@ -50,6 +52,7 @@ export class UsersController {
       return user;
   }
 
+  // TODO - Allow Users and Suppliers to update only their data
   @ApiCreatedResponse({ type: UserEntity })
   @Roles(Role.Admin)
   @Patch(':id')
