@@ -1,7 +1,7 @@
 import { isArray, isDefined } from 'class-validator';
 
 export function sanitize<T>(source: T, field: string): T {
-  if (typeof source !== 'object') return source;
+  if (source == null || typeof source !== 'object') return source;
   if (isArray(source)) {
     for (const item of source as any[]) {
       sanitize(item, field);
