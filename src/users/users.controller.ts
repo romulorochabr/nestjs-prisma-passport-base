@@ -4,9 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { isEmpty } from 'class-validator';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
 @ApiTags('Users')
@@ -16,27 +17,28 @@ export class UsersController {
 
   private readonly logger = new Logger(UsersController.name);
 
+  @ApiCreatedResponse({ type: UserEntity })
   @Public()
   @Post("signUp")
   signUp(@Body() createUserDto: CreateUserDto) {
     return this.usersService.signUp(createUserDto);
   }
 
+  @ApiCreatedResponse({ type: UserEntity })
   @Roles(Role.Admin, Role.Supplier, Role.User)
   @Get("myProfile")
   myProfile() {
     return `returns users data based on JWT`
   }
-  
 
-  // TODO - Return status errors like 404 
+  @ApiCreatedResponse({ type: UserEntity, isArray: true })
   @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  // TODO - Return status errors like 404 
+  @ApiCreatedResponse({ type: UserEntity })
   @Roles(Role.Admin)
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -48,12 +50,14 @@ export class UsersController {
       return user;
   }
 
+  @ApiCreatedResponse({ type: UserEntity })
   @Roles(Role.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @ApiCreatedResponse({ type: UserEntity })
   @Roles(Role.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
