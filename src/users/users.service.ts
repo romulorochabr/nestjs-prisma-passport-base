@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { sanitizeCpfCnpj } from 'src/utils/cpf.cnpj.sanitize.function';
+import { sanitizeCpfCnpj } from '../utils/cpfcnpj.clean.function';
 
 @Injectable()
 export class UsersService {
@@ -11,7 +11,6 @@ export class UsersService {
 
   constructor(private prisma: PrismaService) {}
   
-  // TODO - Verify if async will work or not
   async signUp(createUserDto: CreateUserDto) {
 
     const saltOrRounds = 10;
@@ -23,12 +22,10 @@ export class UsersService {
     return `New user ${user.id} - ${user.name} created successfully`;
   }
 
-  // TODO - Remove password information
   findAll() {
     return this.prisma.user.findMany();
   }
 
-  // TODO - Remove password information
   findOne(id: number) {
     return this.prisma.user.findUnique({ where: { id } });
   }
@@ -67,6 +64,6 @@ export class UsersService {
   }
 
   remove(id: number) {
-    this.prisma.user.delete({ where: {id} })
+    return this.prisma.user.delete({ where: {id} })
   }
 }

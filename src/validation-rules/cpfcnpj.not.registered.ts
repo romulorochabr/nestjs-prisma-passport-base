@@ -4,9 +4,9 @@ import {
     ValidatorConstraint,
     ValidatorConstraintInterface,
   } from 'class-validator';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { sanitizeCpfCnpj } from 'src/utils/cpf.cnpj.sanitize.function';
+import { sanitizeCpfCnpj } from '../utils/cpfcnpj.clean.function';
   
   @Injectable()
   @ValidatorConstraint({ async: true })
@@ -18,6 +18,11 @@ import { sanitizeCpfCnpj } from 'src/utils/cpf.cnpj.sanitize.function';
   
     validate(cpfCnpj: any) {
       this.logger.log(`Validando se CPF/CNPJ ja e registrado.`);
+      // If cpfCnpj is null does not continue
+      if (cpfCnpj == null || cpfCnpj == undefined){
+        this.logger.log('Skipping verification since value is null');
+        return true;
+      }
       cpfCnpj = sanitizeCpfCnpj(cpfCnpj);
       return this.usersService.findByCpfCnpj(cpfCnpj).then((user) => {
          return !(user !== null && user !== undefined)

@@ -5,8 +5,8 @@ import {
     NestInterceptor,
 } from '@nestjs/common';
 import { tap } from 'rxjs';
-import { sanitize } from 'src/utils/sanitize.function';
-  
+import { sanitize } from '../utils/sanitize.function';
+
   @Injectable()
   export class PasswordSanitizerInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler<any>) {

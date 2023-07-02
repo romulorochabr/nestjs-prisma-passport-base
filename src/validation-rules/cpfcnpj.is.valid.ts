@@ -7,7 +7,7 @@ import {
 import { UsersService } from 'src/users/users.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
-import { sanitizeCpfCnpj } from 'src/utils/cpf.cnpj.sanitize.function';
+import { sanitizeCpfCnpj } from 'src/utils/cpfcnpj.clean.function';
 
   @Injectable()
   @ValidatorConstraint({ async: true })
